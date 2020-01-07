@@ -1,11 +1,10 @@
-// Test motor joint mode
 #include "Arduino.h"
 #include "DynamixelMotor.h"
 #define PI 3.14
 // id of the motor
 const uint8_t id=7;
 // speed, between 0 and 1023
-int16_t speed=512;
+int16_t speed=1000;
 // communication baudrate
 const long unsigned int baudrate = 1000000;
 
@@ -27,25 +26,25 @@ void setup()
   interface.begin(baudrate);
   //delay(100);
   motor1.enableTorque();  
-  motor1.jointMode(307,717);
+  motor1.jointMode(410,614);
   motor1.speed(speed);
   motor2.enableTorque();  
-  motor2.jointMode(307,717);// set to joint mode, with a 180° angle range
+  motor2.jointMode(410,614);// set to joint mode, with a 180° angle range
   motor2.speed(speed);// see robotis doc to compute angle values
   motor3.enableTorque();  
-  motor3.jointMode(307,717);
+  motor3.jointMode(410,614);
   motor3.speed(speed);
   motor4.enableTorque();  
-  motor4.jointMode(307,717);
+  motor4.jointMode(410,614);
   motor4.speed(speed);
   motor5.enableTorque();  
-  motor5.jointMode(307,717);
+  motor5.jointMode(410,614);
   motor5.speed(speed);
   motor6.enableTorque();  
-  motor6.jointMode(307,717);
+  motor6.jointMode(410,614);
   motor6.speed(speed);
   motor7.enableTorque();  
-  motor7.jointMode(307,717);
+  motor7.jointMode(410,614);
   motor7.speed(speed);
 
   motor1.goalPosition(512);
@@ -75,11 +74,12 @@ void loop()
     int degf1=map(angr1,-30,30,410,614); 
     float angr2=30*sin((1*(3.14*t)/6)+((4*3.14))/3);
     int degf2=map(angr2,-30,30,410,614); 
-    float angr3=30*sin((1*(3.14*t)/6)+((6*3.14))/3);
-    int degf3=map(angr3,-30,30,410,614);  
+    float angr3=30*sin((1*(3.14*t)/6)+((4*3.14))/3);
+    float angr7=asin((1/2)*sin(angr3));
+    int degf3=map(angr7,-30,30,410,614);  
     float angr4=30*sin((1*(3.14*t)/6)+((8*3.14))/3);
     int degf4=map(angr4,-30,30,410,614); 
-    float angr5=30*sin((1*(3.14*t)/6)+((10*3.14))/3);
+    float angr5=30*sin((1*(3.14*t)/6)+((8*3.14))/3);
     int degf5=map(angr5,-30,30,410,614);       
     motor1.goalPosition(512);
     motor2.goalPosition(degf1); 
