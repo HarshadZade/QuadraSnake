@@ -92,14 +92,16 @@ void setup()
   delay(50);
 }
 int reset12,reset10,reset3,reset5;
-float reset,reset1,reset2,reset4;
+float reset1,reset2,reset4;
 int degf=204,deg=512,deg2=512;
 float angr1,angr2,angr3,angr10,angr8,angr9,angr12,angr13,angr14;
 float t1=0,t2=0,t3=0,t4=0,t5=0,t6=0,t7=0,t8=0,t9=0,t10=0,t11=0,t12=0;
-int degf1,degf2=204,degf3=512,degf5=204,degf6=204,degf7,degf8=512,degf9=204,degf10=665,degf13=204,degf14=512,degf12=820;;
+int degf1,degf2=204,degf3=512,degf5=204,degf6=204,degf7,degf8=512,degf9=204,degf10=665,degf13=204,degf14=512,degf12=820;
 int f1=1,f2=1,f3=1,f4=1,f5=1,f6=1,f7=1,f8=1;
+int T=t1+t2+t3+t4+t5+t6+t7+t8+t9+t10+t11+t12;
 void loop() 
-{     
+{       
+  delay(1000);
     while(degf<375 && f1==1)                        //for hip to come at 15° smoothly
     {
       angr2=-70+(25*t1);
@@ -108,19 +110,21 @@ void loop()
       degf1=map(angr1,-90,90,204,820);
       motor2.goalPosition(degf);
       motor1.goalPosition(degf1);
-      t1=(millis()/1000.0);     
+      t1=(millis()/1000.0)-T;     
     }
+    T+=t1;
     f1=0;
     while(degf3>=204)
     {
-    t2=(millis()/1000.0)-t1;
+    t2=(millis()/1000.0)-T;
     angr3=-45-(25*t2);
     degf3=map(angr3,-90,90,204,820);
     motor3.goalPosition(degf3);
     }
+    T+=t2;
     while(degf>203 && f2==1)                  
     {
-      t3=(millis()/1000.0)-t2-t1;
+      t3=(millis()/1000.0)-T;
       angr2=-40-(25*t3);
       degf=map(angr2,-90,90,204,820); 
       angr1=-70+(25*t3);
@@ -131,10 +135,11 @@ void loop()
       //motor1.goalPosition(512);     
     }
     f2=0;
+    T+=t3;
     //end of one leg   
     while(degf6<375 && f3==1)                        //for hip to come at 15° smoothly
     {
-      t4=(millis()/1000.0)-t3-t2-t1;
+      t4=(millis()/1000.0)-T;
       angr2=-80+(25*t4);
       degf6=map(angr2,-90,90,204,820); 
       angr1=-10-(25*t4);
@@ -143,16 +148,18 @@ void loop()
       motor7.goalPosition(degf7);         
     }
     f3=0;
+    T+=t4;
    while(degf5<=358)
     {
-   t5=(millis()/1000.0)-t4-t3-t2-t1;
+   t5=(millis()/1000.0)-T;
    angr3=-90+(25*t5); 
     degf5=map(angr3,-90,90,204,820);
     motor5.goalPosition(degf5);
-}
+    }
+    T+=t5;
     while(degf6>205 && f4==1)                  
     {
-      t6=(millis()/1000.0)-t5-t4-t3-t2-t1;
+      t6=(millis()/1000.0)-T;
       angr2=-40-(25*t6);
       degf6=map(angr2,-90,90,204,820); 
       angr1=-70+(25*t6);
@@ -163,30 +170,32 @@ void loop()
       //motor1.goalPosition(512);     
     }
     f4=0;
+    T+=t6;
     //second leg
     // START OF THIRD LEG
   while(degf9<375 && f5==1)                        //for hip to come at 15° smoothly
     {
-      t7=(millis()/1000.0)-t6-t5-t4-t3-t2-t1;
+      t7=(millis()/1000.0)-T;
       angr9=-70+(25*t7);
       degf9=map(angr9,-90,90,204,820); 
       angr8=-10-(25*t7);
       degf8=map(angr8,-90,90,204,820);
       motor9.goalPosition(degf9);
-      motor8.goalPosition(degf8);
-      
+      motor8.goalPosition(degf8);     
     }
+    T+=t7;
     f5=0;
     while(degf10<=820)
     {
-    t8=(millis()/1000.0)-t7-t6-t5-t4-t3-t2-t1;
+    t8=(millis()/1000.0)-T;
     angr10=45+(25*t8);
     degf10=map(angr10,-90,90,204,820);
     motor10.goalPosition(degf10);
     }
+    T+=t8;
     while(degf9>203 && f6==1)                  
     {
-      t9=(millis()/1000.0)-t7-t8-t6-t5-t4-t3-t2-t1;
+      t9=(millis()/1000.0)-T;
       angr9=-40-(25*t9);
       degf9=map(angr9,-90,90,204,820); 
       angr8=-70+(25*t9);
@@ -194,12 +203,13 @@ void loop()
       motor9.goalPosition(degf9);
       motor8.goalPosition(degf8);     
     }
+    T+=t9;
     f6=0;
     //end of one leg 
     //LEG FOUR  
     while(degf13<375 && f7==1)                        //for hip to come at 15° smoothly
     {
-      t10=(millis()/1000.0)-t7-t8-t9-t6-t5-t4-t3-t2-t1;
+      t10=(millis()/1000.0)-T;
       angr13=-80+(25*t10);
       degf13=map(angr13,-90,90,204,820); 
       angr14=-10-(25*t10);
@@ -208,17 +218,18 @@ void loop()
       motor14.goalPosition(degf14);         
     }
     f7=0;
-    
+    T+=t10;
    while(degf12>=665)
     {
-   t11=(millis()/1000.0)-t10-t7-t8-t9-t6-t5-t4-t3-t2-t1;
+   t11=(millis()/1000.0)-T;
    angr12=90-(25*t11); 
     degf12=map(angr12,-90,90,204,820);
     motor12.goalPosition(degf12);
-}
+    }
+    T+=t11;
     while(degf13>205 && f8==1)                  
     {
-      t12=(millis()/1000.0)-t10-t11-t7-t8-t9-t6-t5-t4-t3-t2-t1;
+      t12=(millis()/1000.0)-T;
       angr13=-40-(25*t12);
       degf13=map(angr13,-90,90,204,820); 
       angr14=-70+(25*t12);
@@ -229,7 +240,9 @@ void loop()
       //motor1.goalPosition(512);     
     }
     f8=0;
-    delay(1000);
+    T+=t12;
+    delay(500);
+//    delay(1000);
 //    t12=(millis()/1000.0)-t10-t7-t8-t9-t11-t6-t5-t4-t3-t2-t1;
 //    reset=45+(4*t12); 
 //    reset12=map(reset,-90,90,204,820);
@@ -239,20 +252,21 @@ void loop()
 //    reset3=map(reset2,-90,90,204,820);   
 //    reset4=-90-(4*t12); 
 //    reset5=map(reset4,-90,90,204,820);
-//    motor1.goalPosition(512);
-//  motor2.goalPosition(239);
-//  motor3.goalPosition(358);
-//  motor4.goalPosition(512);
-//  motor5.goalPosition(204);
-//  motor6.goalPosition(239);
-//  motor7.goalPosition(512);
-//  motor8.goalPosition(512);
-//  motor9.goalPosition(204);
-//  motor10.goalPosition(665);
-//  motor11.goalPosition(512);
-//  motor12.goalPosition(820);
-//  motor13.goalPosition(204);
-//  motor14.goalPosition(512);
+    //motor1.goalPosition(512);
+  //motor2.goalPosition(239);
+  motor3.goalPosition(358);
+  //motor4.goalPosition(512);
+  motor5.goalPosition(204);
+  //motor6.goalPosition(239);
+  //motor7.goalPosition(512);
+  //motor8.goalPosition(512);
+  //motor9.goalPosition(204);
+  motor10.goalPosition(665);
+  //motor11.goalPosition(512);
+  motor12.goalPosition(820);
+  //motor13.goalPosition(204);
+  //motor14.goalPosition(512);
     f1=1;f2=1;f3=1;f4=1;f5=1;f6=1;f7=1;f8=1;
-    delay(1000);
+    degf=204;deg=512;deg2=512;degf2=204;degf3=512;degf5=204;degf6=204;degf8=512;degf9=204;degf10=665;degf13=204;degf14=512;degf12=820;
+
 }
