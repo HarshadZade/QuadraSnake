@@ -4,7 +4,7 @@
 // id of the motor
 const uint8_t id=7;
 // speed, between 0 and 1023
-int16_t speed=1000;
+int16_t speed=512;
 // communication baudrate
 const long unsigned int baudrate = 1000000;
 
@@ -102,11 +102,11 @@ int T=t1+t2+t3+t4+t5+t6+t7+t8+t9+t10+t11+t12;
 void loop() 
 {       
   delay(1000);
-    while(degf<375 && f1==1)                        //for hip to come at 15° smoothly
+    while(degf<=375 && f1==1)                        //for hip to come at 15° smoothly
     {
-      angr2=-70+(25*t1);
+      angr2=-70+(15*t1);
       degf=map(angr2,-90,90,204,820); 
-      angr1=-10-(25*t1);
+      angr1=-(15*t1);
       degf1=map(angr1,-90,90,204,820);
       motor2.goalPosition(degf);
       motor1.goalPosition(degf1);
@@ -117,17 +117,17 @@ void loop()
     while(degf3>=204)
     {
     t2=(millis()/1000.0)-T;
-    angr3=-45-(25*t2);
+    angr3=-45-(15*t2);
     degf3=map(angr3,-90,90,204,820);
     motor3.goalPosition(degf3);
     }
     T+=t2;
-    while(degf>203 && f2==1)                  
+    while(degf>=204 && f2==1)                  
     {
       t3=(millis()/1000.0)-T;
-      angr2=-40-(25*t3);
+      angr2=-40-(15*t3);
       degf=map(angr2,-90,90,204,820); 
-      angr1=-70+(25*t3);
+      angr1=-30+(15*t3);
       degf1=map(angr1,-90,90,204,820);
       motor2.goalPosition(degf);
       //if(degf1>512)
@@ -137,12 +137,12 @@ void loop()
     f2=0;
     T+=t3;
     //end of one leg   
-    while(degf6<375 && f3==1)                        //for hip to come at 15° smoothly
+    while(degf6<=375 && f3==1)                        //for hip to come at 15° smoothly
     {
       t4=(millis()/1000.0)-T;
-      angr2=-80+(25*t4);
+      angr2=-80+(15*t4);
       degf6=map(angr2,-90,90,204,820); 
-      angr1=-10-(25*t4);
+      angr1=-10-(15*t4);
       degf7=map(angr1,-90,90,204,820);
       motor6.goalPosition(degf6);
       motor7.goalPosition(degf7);         
@@ -152,17 +152,17 @@ void loop()
    while(degf5<=358)
     {
    t5=(millis()/1000.0)-T;
-   angr3=-90+(25*t5); 
+   angr3=-90+(15*t5); 
     degf5=map(angr3,-90,90,204,820);
     motor5.goalPosition(degf5);
     }
     T+=t5;
-    while(degf6>205 && f4==1)                  
+    while(degf6>=205 && f4==1)                  
     {
       t6=(millis()/1000.0)-T;
-      angr2=-40-(25*t6);
+      angr2=-40-(15*t6);
       degf6=map(angr2,-90,90,204,820); 
-      angr1=-70+(25*t6);
+      angr1=-70+(15*t6);
       degf7=map(angr1,-90,90,204,820);
       motor6.goalPosition(degf6);
       //if(degf1>512)
@@ -173,12 +173,12 @@ void loop()
     T+=t6;
     //second leg
     // START OF THIRD LEG
-  while(degf9<375 && f5==1)                        //for hip to come at 15° smoothly
+  while(degf9<=375 && f5==1)                        //for hip to come at 15° smoothly
     {
       t7=(millis()/1000.0)-T;
-      angr9=-70+(25*t7);
+      angr9=-70+(15*t7);
       degf9=map(angr9,-90,90,204,820); 
-      angr8=-10-(25*t7);
+      angr8=-10-(15*t7);
       degf8=map(angr8,-90,90,204,820);
       motor9.goalPosition(degf9);
       motor8.goalPosition(degf8);     
@@ -188,17 +188,17 @@ void loop()
     while(degf10<=820)
     {
     t8=(millis()/1000.0)-T;
-    angr10=45+(25*t8);
+    angr10=45+(15*t8);
     degf10=map(angr10,-90,90,204,820);
     motor10.goalPosition(degf10);
     }
     T+=t8;
-    while(degf9>203 && f6==1)                  
+    while(degf9>=204 && f6==1)                  
     {
       t9=(millis()/1000.0)-T;
-      angr9=-40-(25*t9);
+      angr9=-40-(15*t9);
       degf9=map(angr9,-90,90,204,820); 
-      angr8=-70+(25*t9);
+      angr8=-70+(15*t9);
       degf8=map(angr8,-90,90,204,820);
       motor9.goalPosition(degf9);
       motor8.goalPosition(degf8);     
@@ -207,12 +207,12 @@ void loop()
     f6=0;
     //end of one leg 
     //LEG FOUR  
-    while(degf13<375 && f7==1)                        //for hip to come at 15° smoothly
+    while(degf13<=375 && f7==1)                        //for hip to come at 15° smoothly
     {
       t10=(millis()/1000.0)-T;
-      angr13=-80+(25*t10);
+      angr13=-80+(15*t10);
       degf13=map(angr13,-90,90,204,820); 
-      angr14=-10-(25*t10);
+      angr14=-10-(15*t10);
       degf14=map(angr14,-90,90,204,820);
       motor13.goalPosition(degf13);
       motor14.goalPosition(degf14);         
@@ -222,17 +222,17 @@ void loop()
    while(degf12>=665)
     {
    t11=(millis()/1000.0)-T;
-   angr12=90-(25*t11); 
+   angr12=90-(15*t11); 
     degf12=map(angr12,-90,90,204,820);
     motor12.goalPosition(degf12);
     }
     T+=t11;
-    while(degf13>205 && f8==1)                  
+    while(degf13>=205 && f8==1)                  
     {
       t12=(millis()/1000.0)-T;
-      angr13=-40-(25*t12);
+      angr13=-40-(15*t12);
       degf13=map(angr13,-90,90,204,820); 
-      angr14=-70+(25*t12);
+      angr14=-70+(15*t12);
       degf14=map(angr14,-90,90,204,820);
       motor13.goalPosition(degf13);
       //if(degf1>512)
