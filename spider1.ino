@@ -106,7 +106,7 @@ void loop()
     {
       angr2=-70+(15*t1);
       degf=map(angr2,-90,90,204,820); 
-      angr1=-(15*t1);
+      angr1=-10-(15*t1);
       degf1=map(angr1,-90,90,204,820);
       motor2.goalPosition(degf);
       motor1.goalPosition(degf1);
@@ -127,7 +127,7 @@ void loop()
       t3=(millis()/1000.0)-T;
       angr2=-40-(15*t3);
       degf=map(angr2,-90,90,204,820); 
-      angr1=-30+(15*t3);
+      angr1=-70+(15*t3);
       degf1=map(angr1,-90,90,204,820);
       motor2.goalPosition(degf);
       //if(degf1>512)
