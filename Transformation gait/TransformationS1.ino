@@ -23,6 +23,7 @@ DynamixelMotor motor7(interface,7);
 
 void setup()
 { 
+    pinMode(LED_BUILTIN, OUTPUT);
   //Serial.begin(9600);
   interface.begin(baudrate);
   //delay(100);
@@ -50,42 +51,49 @@ void setup()
  delay(100);
 }
 int f=0;
-float t=0;
-int degf1=0;
-int degf3=0;
+float t=0,angr1=0,angr2=0;
+int degf1=0,degf=819;
+int degf2=0;
 int i=0;
-int j=0;
+int j=0,s;
 void loop() 
 {  while(f==0)
   { 
-    for(int i=0;i<1300;i++)
+    while(degf2<=819)
     {  
-    float angr1=-10*t;
-    int degf1=map(angr1,-90,90,205,819);
-    float angr2=10*t;
-    int degf2=map(angr2,-90,90,205,819);
-    motor1.goalPosition(degf2);
-    motor2.goalPosition(degf1); 
-    motor3.goalPosition(205);
-    motor4.goalPosition(512);
-    motor5.goalPosition(205);
-    motor6.goalPosition(degf1);
-    motor7.goalPosition(degf2);
-    t= (millis()/1000.0);
+      angr1=-10*t;
+      degf1=map(angr1,-90,90,205,819);
+      degf1 = constrain(degf1, 205, 819);
+      angr2=10*t;
+      degf2=map(angr2,-90,90,205,819);
+      //degf2 = constrain(degf2, 205, 819);
+      motor1.goalPosition(degf2);    //+90
+      motor2.goalPosition(degf1);    //-90
+      motor3.goalPosition(205);
+      motor4.goalPosition(512);
+      motor5.goalPosition(205);
+      motor6.goalPosition(degf1);   //-90
+      motor7.goalPosition(degf2);   //+90
+      t= (millis()/1000.0);
     }
-    
-    for(int j=737;j>=512;)
-    {
-    motor1.goalPosition(j);
     motor2.goalPosition(205); 
     motor3.goalPosition(205);
     motor4.goalPosition(512);
     motor5.goalPosition(205);
     motor6.goalPosition(205);
-    motor7.goalPosition(j);
-    t= (millis()/1000.0);
-    j=j-0.5;
+    while(degf2>512)
+    {
+      s= (millis()/1000.0)-t;
+      angr2=90-5*s;
+      degf2=map(angr2,-90,90,205,819);
+      degf2 = constrain(degf2, 205, 819);
+      motor1.goalPosition(degf2);  
+      motor7.goalPosition(degf2);
     }
     f=1;        
   }
+//  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+//  delay(1000);                       // wait for a second
+//  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+//  delay(1000); 
 }
