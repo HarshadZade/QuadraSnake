@@ -1,6 +1,6 @@
 #include "Arduino.h"
 #include "DynamixelMotor.h"
-#define PI 3.14
+//#define PI 3.14
 // id of the motor
 const uint8_t id=7;
 // speed, between 0 and 1023
@@ -48,44 +48,51 @@ void setup()
   motor14.jointMode(205,819);
   motor14.speed(speed);
  delay(100);
+ pinMode(13, OUTPUT);
 }
-int f=0;
-float t=0;
-int degf1=0;
-int degf3=0;
-int i=0;
-int j=0;
+float t=0,angr1=0,angr2=0;
+int degf1=0,degf2=0,i=0,j=0,f=0,s;
 void loop() 
 {  while(f==0)
   { 
-    for(int i=0;i<1300;i++)
+    while(degf2<=819)
     {  
-    float angr1=-10*t;
-    int degf1=map(angr1,-90,90,205,819);
-    float angr2=10*t;
-    int degf2=map(angr2,-90,90,205,819);
-    motor8.goalPosition(degf2);
-    motor9.goalPosition(degf1); 
-    motor10.goalPosition(819);
-    motor11.goalPosition(512);
-    motor12.goalPosition(819);
-    motor13.goalPosition(degf1);
-    motor14.goalPosition(degf2);
-    t= (millis()/1000.0);
+      angr1=-10*t;
+      degf1=map(angr1,-90,90,205,819);
+      degf1 = constrain(degf1, 205, 819);
+      angr2=10*t;
+      degf2=map(angr2,-90,90,205,819);
+      //degf2 = constrain(degf2, 205, 819);
+      motor8.goalPosition(degf2);   //+90
+      motor9.goalPosition(degf1);   //-90
+      motor10.goalPosition(819);
+      motor11.goalPosition(512);
+      motor12.goalPosition(819);
+      motor13.goalPosition(degf1);
+      motor14.goalPosition(degf2);
+      t= (millis()/1000.0);   
+      digitalWrite(LED_BUILTIN, HIGH);
+//      delay(1000);
+//      digitalWrite(LED_BUILTIN, LOW);
     }
-    
-    for(int j=737;j>=512;)
-    {
-    motor8.goalPosition(j);
     motor9.goalPosition(205); 
     motor10.goalPosition(819);
     motor11.goalPosition(512);
     motor12.goalPosition(819);
     motor13.goalPosition(205);
-    motor14.goalPosition(j);
-    t= (millis()/1000.0);
-    j=j-0.5;
+    while(degf2>512)    
+    {  
+      s= (millis()/1000.0)-t;
+      angr2=90-5*s;
+      degf2=map(angr2,-90,90,205,819);
+      degf2 = constrain(degf2, 205, 819);
+      motor8.goalPosition(degf2);   
+      motor14.goalPosition(degf2);
     }
     f=1;        
   }
+//  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+//  delay(1000);                       // wait for a second
+//  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+//  delay(1000); 
 }
