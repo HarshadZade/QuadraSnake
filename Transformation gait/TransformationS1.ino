@@ -46,13 +46,13 @@ void setup()
   motor6.jointMode(205,819);
   motor6.speed(speed);
   motor7.enableTorque();  
-  motor7.jointMode(205,819);
+  motor7.jointMode(1024,3072);
   motor7.speed(speed);
  delay(100);
 }
 int f=0;
-float t=0,angr1=0,angr2=0;
-int degf1=0,degf=819;
+float t=0,angr1=0,angr2=0,angr7=0;
+int degf1=0,degf=819,degf7;
 int degf2=0;
 int i=0;
 int j=0,s;
@@ -65,6 +65,7 @@ void loop()
       degf1=map(angr1,-90,90,205,819);
       degf1 = constrain(degf1, 205, 819);
       angr2=10*t;
+      degf7=map(angr2,-90,90,1024,3072);
       degf2=map(angr2,-90,90,205,819);
       //degf2 = constrain(degf2, 205, 819);
       motor1.goalPosition(degf2);    //+90
@@ -73,7 +74,7 @@ void loop()
       motor4.goalPosition(512);
       motor5.goalPosition(205);
       motor6.goalPosition(degf1);   //-90
-      motor7.goalPosition(degf2);   //+90
+      motor7.goalPosition(degf7);   //+90
       t= (millis()/1000.0);
     }
     motor2.goalPosition(205); 
@@ -84,11 +85,14 @@ void loop()
     while(degf2>512)
     {
       s= (millis()/1000.0)-t;
+      angr7=90-10*s;
       angr2=90-5*s;
+      degf7=map(angr7,-90,90,1024,3072);
       degf2=map(angr2,-90,90,205,819);
       degf2 = constrain(degf2, 205, 819);
       motor1.goalPosition(degf2);  
-      motor7.goalPosition(degf2);
+      if(degf7>=1800)
+      {motor7.goalPosition(degf7);}
     }
     f=1;        
   }
