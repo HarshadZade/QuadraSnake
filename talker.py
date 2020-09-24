@@ -48,43 +48,46 @@ def talker():
     pub4 = rospy.Publisher('/motor4/command', Float64, queue_size=10)
     pub5 = rospy.Publisher('/motor5/command', Float64, queue_size=10)
     pub6 = rospy.Publisher('/motor6/command', Float64, queue_size=10)
-    pub7 = rospy.Publisher('/motor7/command', Float64, queue_size=10)
-    rospy.init_node('talker', anonymous=True)
+    pub7 = rospy.Publisher('/motor19/command', Float64, queue_size=10)
+    rospy.init_node('talker1', anonymous=True)
     rate = rospy.Rate(10) # 10hz
     t=0
     angr2=0
     angr4=0
     angr6=0
     a=1
+    b=0
     while not rospy.is_shutdown():
 	       
 ##        hello_str = "hello world %s" % rospy.get_time()
-	angr2=60*(math.sin((1*(3.14*t)/6)+((2*3.14))/3))
-    	angr2=round(angr2,2)
-    	angr4=60*(math.sin((1*(3.14*t)/6)+((6*3.14))/3))
-    	angr4=round(angr4,2)
-    	angr6=60*(math.sin((1*(3.14*t)/6)+((10*3.14))/3))
-    	angr6=round(angr6,2)
+	angr2=math.radians(30*(math.sin((1*(3.14*t)/6)+((2*3.14))/3)))
+##    	angr2=round(angr2,2)
+    	angr4=math.radians(30*(math.sin((1*(3.14*t)/6)+((6*3.14))/3)))
+##    	angr4=round(angr4,2)
+    	angr6=math.radians(30*(math.sin((1*(3.14*t)/6)+((10*3.14))/3)))
+##    	angr6=round(angr6,2)
 ##        rospy.loginfo(ang)
-	time.sleep(1)
+##	time.sleep(1)
 	pub1.publish(0)
-	time.sleep(5)
+##	time.sleep(1)
 ##	rospy.loginfo(ang1)
 	pub2.publish(angr2)
-	time.sleep(1)
+##	time.sleep(1)
 ##	rospy.loginfo(ang2)
 	pub3.publish(0)
-	time.sleep(1)   
-    	pub4.publish(angr4)
-	time.sleep(1)   
+##	time.sleep(1)   
+   	pub4.publish(angr4)
+##	time.sleep(1)   
     	pub5.publish(0)
-	time.sleep(1)    
+##	time.sleep(1)    
      	pub6.publish(angr6)
-	time.sleep(1)    
+##	time.sleep(1)    
      	pub7.publish(0)
-	time.sleep(1)    
+##	time.sleep(1)    
 	rate.sleep()
-    	t=t+1/1000;
+##	t = t+(1/1000000000);
+    	t=((time.time()/1000000000)+(b/10))
+	b = b + 1;
 
 if __name__ == '__main__':
     try:
